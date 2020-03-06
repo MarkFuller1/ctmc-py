@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 attrs==19.3.0
 backcall==0.1.0
 bleach==3.1.0
@@ -13,9 +14,25 @@ ipykernel==5.1.4
 ipython==7.12.0
 ipython-genutils==0.2.0
 ipywidgets==7.5.1
+=======
+asn1crypto==0.24.0
+ccsm==0.9.13.1
+Click==7.0
+compizconfig-python==0.9.13.1
+cryptography==2.1.4
+enum34==1.1.6
+Flask==1.1.1
+futures==3.2.0
+greenlet==0.4.12
+gunicorn==19.10.0
+gyp==0.1
+idna==2.6
+ipaddress==1.0.17
+>>>>>>> c6c0d75254d913abc334dfd2dc548524c17bb14b
 itsdangerous==1.1.0
 jedi==0.16.0
 Jinja2==2.11.1
+<<<<<<< HEAD
 jsonschema==3.2.0
 jupyter==1.0.0
 jupyter-client==5.3.4
@@ -57,5 +74,27 @@ tornado==6.0.3
 traitlets==4.3.3
 wcwidth==0.1.8
 webencodings==0.5.1
+=======
+keyring==10.6.0
+keyrings.alt==3.0
+MarkupSafe==1.1.1
+msgpack==0.5.6
+mysql-connector-python==2.1.6
+mysql-utilities==1.6.4
+neovim==0.2.6
+paramiko==2.0.0
+pexpect==4.2.1
+pyasn1==0.4.2
+pycairo==1.16.2
+pycrypto==2.6.1
+pygobject==3.26.1
+PyMySQL==0.9.3
+pyodbc==4.0.17
+pysqlite==2.7.0
+pyxdg==0.25
+SecretStorage==2.3.1
+six==1.11.0
+trollius==2.0.1
+>>>>>>> c6c0d75254d913abc334dfd2dc548524c17bb14b
 Werkzeug==1.0.0
 widgetsnbextension==3.5.1
