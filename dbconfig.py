@@ -1,5 +1,5 @@
-mysql = { 'username': 'davidisMaster', 
+mysql = { 'user': 'davidisMaster', 
 'host': 'dbmaininstance.ci9rmetj8mwt.us-east-1.rds.amazonaws.com',
-'password': 'Idaho1!',
-'db': 'dbmaininstance'
+'password': 'Idaho11!',
+'db': 'CoachStoleMyCup'
 }
