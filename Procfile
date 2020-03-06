@@ -1,1 +1,1 @@
-web: gunicorn ctmc
+web: gunicorn wsgi:app
