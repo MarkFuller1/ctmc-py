@@ -18,15 +18,6 @@ def hello():
         cur.execute("select * from Teams")
         results = cur.fetchall()
 
-@application.route('/testGet', methods=['GET'])
-@cross_origin(origin= '*')
-def retStuff():
-    with con:
-        cur = con.cursor()
-        cur.execute("select * from Teams")
-        results = cur.fetchall()
-    return jsonify({'data': results})
-
 
 @application.route("/getAllPlayers",  methods=['GET'])
 @cross_origin(origin= '*')
@@ -42,6 +33,43 @@ def getAllBatters():
             json_data.append(dict(zip(row_headers, result)))
         return json.dumps(json_data, indent=4, sort_keys=True, default=str)
 
+@application.route('/<playerID>/generalData', methods=['GET'])
+@cross_origin(origin='*')
+def getGeneralData(playerID):
+    with con:
+        cur = con.cursor()
+        cur.execute("select * from People where playerID = %s", (playerID))
+        results = cur.fetchall()
+    return jsonify({'generalData': results})
+
+
+@application.route('/<playerID>/battingData', methods=['GET'])
+@cross_origin(origin='*')
+def getBattingData(playerID):
+    with con:
+        cur = con.cursor()
+        cur.execute("select * from Batting where playerID = %s", (playerID))
+        results = cur.fetchall()
+    return jsonify({'data': results})
+
+
+@application.route('/<playerID>/pitchingData', methods=['GET'])
+@cross_origin(origin='*')
+def getPitchingData(playerID):
+    with con:
+        cur = con.cursor()
+        cur.execute("select * from Pitching where playerID = %s", (playerID) )
+        results = cur.fetchall()
+    return jsonify({'data': results})
+
+@application.route('/<playerID>/fieldingData', methods=['GET'])
+@cross_origin(origin='*')
+def getFieldingData(playerID):
+    with con:
+        cur = con.cursor()
+        cur.execute("select * from Fielding where playerID = %s", (playerID))
+        results = cur.fetchall()
+    return jsonify({'data': results})
 
 if __name__ == "__main__":
     application.run(debug=True, port="5000")
