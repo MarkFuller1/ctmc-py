@@ -13,7 +13,10 @@ con = pymysql.connect(cfg.mysql['host'], cfg.mysql['user'], cfg.mysql['password'
 @application.route("/")
 @cross_origin()
 def hello():
-    return "<h1 style='color:blue'>If your looking for the DB project this is the backend</h1>"
+    with con:
+        cur = con.cursor()
+        cur.execute("select * from Teams")
+        results = cur.fetchall()
 
 @application.route('/testGet', methods=['GET'])
 @cross_origin(origin= '*')
