@@ -20,7 +20,7 @@ def hello():
 
 
 @application.route("/getAllPlayers",  methods=['GET'])
-@cross_origin(origin= '*')
+@cross_origin(origin='*')
 def getAllBatters():
     with con:
         cur = con.cursor()
@@ -39,8 +39,11 @@ def getGeneralData(playerID):
     with con:
         cur = con.cursor()
         cur.execute("select * from People where playerID = %s", (playerID))
+        field_names = [i[0] for i in cur.description]
         results = cur.fetchall()
-    return jsonify({'generalData': results})
+
+    return jsonify({'colnames': field_names,
+                    'generalData': results})
 
 
 @application.route('/<playerID>/battingData', methods=['GET'])
@@ -58,7 +61,7 @@ def getBattingData(playerID):
 def getPitchingData(playerID):
     with con:
         cur = con.cursor()
-        cur.execute("select * from Pitching where playerID = %s", (playerID) )
+        cur.execute("select * from Pitching where playerID = %s", (playerID))
         results = cur.fetchall()
     return jsonify({'data': results})
 
