@@ -3,6 +3,7 @@
 
 from flask import Flask, jsonify
 import dbconfig as cfg
+import pymysql
 from flask_cors import cross_origin
 import Execute as e
 
