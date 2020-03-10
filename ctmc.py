@@ -89,9 +89,14 @@ def getFieldingData(playerID):
 @cross_origin(origin='*')
 def getBirthdayBoys():
     with con:
-        res = e.execute(con, "select concat(nameFirst, ' ' , nameLast) as name, birthYear as year from People where birthMonth = "
-                             "MONTH(CURDATE()) and birthDay = DAY(CURDATE());")
+        res = e.execute(con, "select concat(nameFirst, ' ' , nameLast) as name, birthYear as year, playerid from People where birthMonth ="
+                             "MONTH(CURDATE()) and birthDay = DAY(CURDATE()) and finalGame like '%2018%' order by debut - finalGame desc;")
+        
 
+        if res == "[]":
+            print("NO INITIAL RESPONSE")
+            res = e.execute(con, "select concat(nameFirst, ' ' , nameLast) as name, birthYear as year, playerid from People where birthMonth ="
+                             "MONTH(CURDATE()) and birthDay = DAY(CURDATE()) order by debut - finalGame desc;")
         print(res)
 
         return res
