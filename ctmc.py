@@ -85,5 +85,16 @@ def getFieldingData(playerID):
 
         return res
 
+@application.route('/getBirthdayBoys', methods=['GET'])
+@cross_origin(origin='*')
+def getBirthdayBoys():
+    with con:
+        res = e.execute(con, "select concat(nameFirst, ' ' , nameLast) as name, birthYear as year from People where birthMonth = "
+                             "MONTH(CURDATE()) and birthDay = DAY(CURDATE());")
+
+        print(res)
+
+        return res
+
 if __name__ == "__main__":
     application.run(debug=True, port="5000")
