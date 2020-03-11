@@ -101,5 +101,16 @@ def getBirthdayBoys():
 
         return res
 
+@application.route('/<playerID>/getPlayerUrl', methods=['GET'])
+@cross_origin(origin='*')
+def getplayerurl(playerID):
+    with con:
+        filtered = "'" + playerID + "'"
+        res = e.execute(con, "select url from playerUrls where playerID = " + filtered + ";")
+
+        print(res)
+
+        return res
+
 if __name__ == "__main__":
     application.run(debug=True, port="5000")
