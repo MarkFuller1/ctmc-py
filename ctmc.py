@@ -31,7 +31,7 @@ def getAllTeams():
 @cross_origin(origin='*')
 def getAllBatters():
     with con:
-        res = e.execute(con, "SELECT concat(nameFirst, ' ', nameLast) as name FROM People order by nameLast")
+        res = e.execute(con, "SELECT concat(nameFirst, ' ', nameLast) as name FROM people order by nameLast")
 
         print(res)
 
@@ -43,7 +43,7 @@ def getAllBatters():
 def getGeneralData(playerID):
     with con:
         filtered = "'" + playerID + "'"
-        res = e.execute(con, "select * from People where playerID = " + filtered + ";")
+        res = e.execute(con, "select * from people where playerID = " + filtered + ";")
 
         print(res)
 
@@ -89,13 +89,13 @@ def getFieldingData(playerID):
 @cross_origin(origin='*')
 def getBirthdayBoys():
     with con:
-        res = e.execute(con, "select concat(nameFirst, ' ' , nameLast) as name, birthYear as year, playerid from People where birthMonth ="
-                             "MONTH(CURDATE()) and birthDay = DAY(CURDATE()) and finalGame like '%2018%' order by debut - finalGame desc;")
-        
+        res = e.execute(con, "select concat(nameFirst, ' ' , nameLast) as Name, birthYear as Year, playerid from people where birthMonth ="
+                             "MONTH(CURDATE()) and birthDay = DAY(CURDATE()) and finalGame like '%2019%' order by debut - finalGame desc;")
+
 
         if res == "[]":
             print("NO INITIAL RESPONSE")
-            res = e.execute(con, "select concat(nameFirst, ' ' , nameLast) as name, birthYear as year, playerid from People where birthMonth ="
+            res = e.execute(con, "select concat(nameFirst, ' ' , nameLast) as Name, birthYear as Year, playerid from people where birthMonth ="
                              "MONTH(CURDATE()) and birthDay = DAY(CURDATE()) order by debut - finalGame desc;")
         print(res)
 
