@@ -89,14 +89,25 @@ def getFieldingData(playerID):
 @cross_origin(origin='*')
 def getBirthdayBoys():
     with con:
-        res = e.execute(con, "select concat(nameFirst, ' ' , nameLast) as Name, birthYear as Year, playerid from people where birthMonth ="
-                             "MONTH(CURDATE()) and birthDay = DAY(CURDATE()) and finalGame like '%2019%' order by debut - finalGame desc;")
-
+        res = e.execute(con, "select concat(nameFirst, ' ' , nameLast) as name, birthYear as year, playerid from people where birthMonth ="
+                             "MONTH(CURDATE()) and birthDay = DAY(CURDATE()) and finalGame like '%2018%' order by debut - finalGame desc;")
+        
 
         if res == "[]":
             print("NO INITIAL RESPONSE")
-            res = e.execute(con, "select concat(nameFirst, ' ' , nameLast) as Name, birthYear as Year, playerid from people where birthMonth ="
+            res = e.execute(con, "select concat(nameFirst, ' ' , nameLast) as name, birthYear as year, playerid from people where birthMonth ="
                              "MONTH(CURDATE()) and birthDay = DAY(CURDATE()) order by debut - finalGame desc;")
+        print(res)
+
+        return res
+
+@application.route('/<playerID>/getPlayerUrl', methods=['GET'])
+@cross_origin(origin='*')
+def getplayerurl(playerID):
+    with con:
+        filtered = "'" + playerID + "'"
+        res = e.execute(con, "select url from playerUrls where playerID = " + filtered + ";")
+
         print(res)
 
         return res
