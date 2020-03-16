@@ -3,11 +3,14 @@
 
 from flask import Flask, jsonify
 import dbconfig as cfg
+import json
 import pymysql
-from flask_cors import cross_origin
+from flask_cors import cross_origin, CORS
 import Execute as e
 
 application = Flask(__name__)
+CORS(application)
+
 con = pymysql.connect(cfg.mysql['host'], cfg.mysql['user'], cfg.mysql['password'], cfg.mysql['db'])
 
 @application.route("/")
@@ -103,7 +106,7 @@ def getBirthdayBoys():
 
 @application.route('/<playerID>/getPlayerUrl', methods=['GET'])
 @cross_origin(origin='*')
-def getplayerurl(playerID):
+def getPlayerUrl(playerID):
     with con:
         filtered = "'" + playerID + "'"
         res = e.execute(con, "select url from playerUrls where playerID = " + filtered + ";")
@@ -111,6 +114,18 @@ def getplayerurl(playerID):
         print(res)
 
         return res
+
+@application.route('/<playerID>/getPlayerSalaries+Avg', methods=['GET'])
+@cross_origin(origin='*')
+def getPlayerSalaries(playerID):
+    with con:
+        filtered = "'" + playerID + "'"
+        plSal = e.execute(con, "select distinct a.yearID, s.salary, a.salary as 'average' from salaries as s"
+                               " join averages as a using(yearID) where playerID = '" + playerID + "';")
+        print(plSal)
+
+        return plSal
+
 
 if __name__ == "__main__":
     application.run(debug=True, port="5000")
