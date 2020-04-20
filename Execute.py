@@ -10,4 +10,5 @@ def execute(con, query):
     json_data = []
     for result in rv:
         json_data.append(dict(zip(row_headers, result)))
+    cur.close()
     return json.dumps(json_data, indent=4, sort_keys=True, default=str)
