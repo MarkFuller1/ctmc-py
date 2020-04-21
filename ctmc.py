@@ -176,9 +176,12 @@ def getPlayerBadges(playerID):
 @application.route('/search/<search>', methods=['GET'])
 @cross_origin(origin='*')
 def search(search):
-    with con:
+    connection = pymysql.connect(cfg.mysql['host'], cfg.mysql['user'], cfg.mysql['password'], cfg.mysql['db'])
+    with connection:
         filtered = "" + search + ""
-        plSal = e.execute(con, "(select distinct concat(nameFirst, ' ', nameLast) as v, playerId as k, 'p' as type from people where concat(nameFirst, ' ' , nameLast) like '%" + search + "%' limit 10) union (select distinct name, teamId, 't'  from teams where name like '%" + search + "%' limit 10) union (select distinct parkname , id, 'f'  from parks where parkname like '%" + search + "%' or parkalias like '%so%' limit 10) ; ")
+        plSal = e.execute(connection, "(select distinct concat(nameFirst, ' ', nameLast) as v, playerId as k, 'p' as type from people where concat(nameFirst, ' ' , nameLast) like '%" + search + "%' limit 10) union "
+            "(select distinct name, teamId, 't'  from teams where name like '%" + search + "%' limit 10) "
+            "union (select distinct parkname , id, 'f'  from parks where parkname like '%" + search + "%' or parkalias like '%" + search + "%' limit 10) ; ")
         print(plSal)
 
         return plSal
