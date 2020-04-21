@@ -154,6 +154,18 @@ def getPlayerTeams(playerID):
     connection.close()
     return pl
 
+@application.route('/<playerID>/getBadges', methods=['GET', 'OPTIONS'])
+@cross_origin()
+def getPlayerBadges(playerID):
+    connection = pymysql.connect(cfg.mysql['host'], cfg.mysql['user'], cfg.mysql['password'], cfg.mysql['db'])
+    with connection:
+        filtered = "'" + playerID + "'"
+        pl = e.execute(connection, "select inducted, awardID, a.yearid from halloffame h join awardsplayers a on"
+                                   " h.playerID = a.playerID where h.playerID = "+ filtered + " and inducted ='Y' "
+                                   "group by awardID, inducted having inducted = 'Y';")
+        print(pl)
+    connection.close()
+    return pl
 
 if __name__ == "__main__":
     application.run(debug=True, port="5000")
