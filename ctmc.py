@@ -1,5 +1,5 @@
-#THIS FILE HOUSES MAIN APPLICATION AND ENDPOINTS
-#COMPLEX CALCULATION AND DB QUERIES SHOULD BE MADE ELSEWHERE
+# THIS FILE HOUSES MAIN APPLICATION AND ENDPOINTS
+# COMPLEX CALCULATION AND DB QUERIES SHOULD BE MADE ELSEWHERE
 
 from flask import Flask, jsonify
 import dbconfig as cfg
@@ -12,6 +12,7 @@ application = Flask(__name__)
 CORS(application)
 
 con = pymysql.connect(cfg.mysql['host'], cfg.mysql['user'], cfg.mysql['password'], cfg.mysql['db'])
+
 
 @application.route("/")
 @cross_origin()
@@ -30,7 +31,7 @@ def getAllTeams():
         return res
 
 
-@application.route("/getAllPlayers",  methods=['GET'])
+@application.route("/getAllPlayers", methods=['GET'])
 @cross_origin(origin='*')
 def getAllBatters():
     with con:
@@ -88,21 +89,24 @@ def getFieldingData(playerID):
 
         return res
 
+
 @application.route('/getBirthdayBoys', methods=['GET'])
 @cross_origin(origin='*')
 def getBirthdayBoys():
     with con:
-        res = e.execute(con, "select concat(nameFirst, ' ' , nameLast) as name, birthYear as year, playerid from people where birthMonth ="
-                             "MONTH(CURDATE()) and birthDay = DAY(CURDATE()) and finalGame like '%2018%' order by debut - finalGame desc;")
-        
+        res = e.execute(con,
+                        "select concat(nameFirst, ' ' , nameLast) as name, birthYear as year, playerid from people where birthMonth ="
+                        "MONTH(CURDATE()) and birthDay = DAY(CURDATE()) and finalGame like '%2018%' order by debut - finalGame desc;")
 
         if res == "[]":
             print("NO INITIAL RESPONSE")
-            res = e.execute(con, "select concat(nameFirst, ' ' , nameLast) as name, birthYear as year, playerid from people where birthMonth ="
-                             "MONTH(CURDATE()) and birthDay = DAY(CURDATE()) order by debut - finalGame desc;")
+            res = e.execute(con,
+                            "select concat(nameFirst, ' ' , nameLast) as name, birthYear as year, playerid from people where birthMonth ="
+                            "MONTH(CURDATE()) and birthDay = DAY(CURDATE()) order by debut - finalGame desc;")
         print(res)
 
         return res
+
 
 @application.route('/<playerID>/getPlayerUrl', methods=['GET'])
 @cross_origin(origin='*')
@@ -115,6 +119,7 @@ def getPlayerUrl(playerID):
 
         return res
 
+
 @application.route('/<playerID>/getPlayerSalaries+Avg', methods=['GET'])
 @cross_origin(origin='*')
 def getPlayerSalaries(playerID):
@@ -122,6 +127,17 @@ def getPlayerSalaries(playerID):
         filtered = "'" + playerID + "'"
         plSal = e.execute(con, "select distinct a.yearID, s.salary, a.salary as 'average' from salaries as s"
                                " join averages as a using(yearID) where playerID = '" + playerID + "';")
+        print(plSal)
+
+        return plSal
+
+
+@application.route('/search/<search>', methods=['GET'])
+@cross_origin(origin='*')
+def search(search):
+    with con:
+        filtered = "" + search + ""
+        plSal = e.execute(con, "(select distinct concat(nameFirst, ' ', nameLast) as v, playerId as k, 'p' as type from people where concat(nameFirst, ' ' , nameLast) like '%" + search + "%' limit 10) union (select distinct name, teamId, 't'  from teams where name like '%" + search + "%' limit 10) union (select distinct parkname , id, 'f'  from parks where parkname like '%" + search + "%' or parkalias like '%so%' limit 10) ; ")
         print(plSal)
 
         return plSal
