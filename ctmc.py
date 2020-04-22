@@ -129,6 +129,8 @@ def getPlayerUrl(playerID):
         filtered = "'" + playerID + "'"
         res = e.execute(con, "select url from playerUrls where playerID = " + filtered + ";")
 
+        # res = json.dumps(json.loads(res).append({"url": "https://pecb.com/conferences/wp-content/uploads/2017/10/no-profile-picture.jpg"}))
+
         print(res)
 
     con.close()
